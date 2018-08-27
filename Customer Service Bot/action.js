@@ -8,7 +8,6 @@ var questions = [
 ];
 function send_message() {
   var client_message = document.getElementById('ans').value;
-  document.getElementById("demo").innerHTML = client_message;
   if (client_message != null && client_message != "") {
   console.log("Client Side Message: " + client_message);
 
@@ -47,7 +46,7 @@ function chat_bot_response() {
     document.getElementById("chatlogs").appendChild(innerDiv);
 
   var userPhotoDiv = document.createElement('div');
-  userPhotoDiv.className = 'user-photo';
+  userPhotoDiv.className = 'bot-photo';
   innerDiv.appendChild(userPhotoDiv);
 
   var node = document.createElement("p");
