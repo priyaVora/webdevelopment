@@ -6,65 +6,55 @@ var questions = [
   'What profile you are working on?',
   'It was nice talking to you :)'
 ];
-function send_message() {
+
+function send_message_to_chat(class_name, id_name, photo_id) {
+  var innerDiv = document.createElement('div');
+  innerDiv.className = class_name;
+  innerDiv.id = id_name;
+  document.getElementById("chatlogs").appendChild(innerDiv);
+
+  var userPhotoDiv = document.createElement('div');
+  userPhotoDiv.className = photo_id;
+  innerDiv.appendChild(userPhotoDiv);
   var client_message = document.getElementById('ans').value;
+
+  var node = document.createElement("p");
+  node.className = "chat-message";
+  if (class_name == 'chat self') {
+    var responseNode = document.createTextNode(client_message);
+  } else {
+    var responseNode = document.createTextNode(questions[0]);
+  }
+  node.appendChild(responseNode);
+
+  innerDiv.appendChild(node);
+  document.getElementById("chatlogs").appendChild(innerDiv);
+}
+
+
+function send_message() {
+  client_message = document.getElementById('ans').value;
   if (client_message != null && client_message != "") {
-  console.log("Client Side Message: " + client_message);
+    console.log("Client Side Message: " + client_message);
 
-  var innerDiv = document.createElement('div');
-  innerDiv.className = 'chat self';
-  innerDiv.id = "ans-show";
-    document.getElementById("chatlogs").appendChild(innerDiv);
+    send_message_to_chat('chat self', 'ans-show', 'user-photo');
+    chat_bot_response();
 
-  var userPhotoDiv = document.createElement('div');
-  userPhotoDiv.className = 'user-photo';
-  innerDiv.appendChild(userPhotoDiv);
+    $(document).ready(function() {
+      $('#chatlogs').animate({
+        scrollTop: $('#chatlogs').get(0).scrollHeight
+      }, 2000);
 
-  var node = document.createElement("p");
-  node.className = "chat-message";
-  var responseNode = document.createTextNode(client_message);
-  node.appendChild(responseNode);
-
-  innerDiv.appendChild(node);
-document.getElementById("chatlogs").appendChild(innerDiv);
-  chat_bot_response();
-    }
+    });
+  }
 }
 
-$(document).ready(function(){
-  $('#chatlogs').animate({
-  scrollTop: $('#chatlogs').get(0).scrollHeight}, 2000);
-  open_chat_popup();
-});
+  function chat_bot_response() {
+    var chat_reponse = questions[0];
+    send_message_to_chat('chat friend', 'result', 'bot-photo');
+    var objDiv = document.getElementById("chatlogs");
+    objDiv.scrollTop = objDiv.scrollHeight;
 
-function chat_bot_response() {
-  var chat_reponse = questions[0];
-
-  var innerDiv = document.createElement('div');
-  innerDiv.className = 'chat friend';
-  innerDiv.id = "result";
-    document.getElementById("chatlogs").appendChild(innerDiv);
-
-  var userPhotoDiv = document.createElement('div');
-  userPhotoDiv.className = 'bot-photo';
-  innerDiv.appendChild(userPhotoDiv);
-
-  var node = document.createElement("p");
-  node.className = "chat-message";
-  var responseNode = document.createTextNode(questions[0]);
-  node.appendChild(responseNode);
-
-  innerDiv.appendChild(node);
-  var objDiv = document.getElementById("chatlogs");
-  objDiv.scrollTop = objDiv.scrollHeight;
-document.getElementById("chatlogs").appendChild(innerDiv);
-$('#chatlogs').scrollTop($('#chatlogs')[0].scrollHeight);
-console.log("NATASHA: " + questions[0]);
-}
-
-function open_chat_popup() {
-  let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-  width=0,height=0,left=-1000,top=-1000`;
-
-  open('/', 'test', params);
-}
+    $('#chatlogs').scrollTop($('#chatlogs')[0].scrollHeight);
+    console.log("NATASHA: " + questions[0]);
+  }
