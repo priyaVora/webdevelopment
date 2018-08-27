@@ -28,7 +28,6 @@ function send_message() {
 
   innerDiv.appendChild(node);
 document.getElementById("chatlogs").appendChild(innerDiv);
-
   chat_bot_response();
     }
 }
@@ -36,6 +35,7 @@ document.getElementById("chatlogs").appendChild(innerDiv);
 $(document).ready(function(){
   $('#chatlogs').animate({
   scrollTop: $('#chatlogs').get(0).scrollHeight}, 2000);
+  open_chat_popup();
 });
 
 function chat_bot_response() {
@@ -61,4 +61,11 @@ function chat_bot_response() {
 document.getElementById("chatlogs").appendChild(innerDiv);
 $('#chatlogs').scrollTop($('#chatlogs')[0].scrollHeight);
 console.log("NATASHA: " + questions[0]);
+}
+
+function open_chat_popup() {
+  let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+  width=0,height=0,left=-1000,top=-1000`;
+
+  open('/', 'test', params);
 }
