@@ -7,8 +7,30 @@ var questions = [
   'It was nice talking to you :)'
 ];
 
+var product_language = [
+  'computer',
+  'deskstops',
+  'notebooks',
+  'software',
+  'camera',
+  'photo',
+  'cell phones',
+  'others',
+  'apparel',
+  'shoes',
+  'clothes',
+  'accesories',
+  'digital download',
+  'books',
+  'accesories',
+  'jewerly',
+  'gift-cards'
+];
+
 var help = [
-  'I see that you have requested help...Here are some possible categories in which I can help you in.\n Would you want me to provide you with a list of options for you to select in which I can assist you in?',
+  'I see that you requested help',
+  'Here is a list of categories that I can help you in: ',
+  '(Enter number or the titles of any option for further assistance)',
   '1. Report damage products',
   '2. Report missing delivery item',
   '3. Need help in website direction',
@@ -17,33 +39,46 @@ var help = [
   '6. Get customer service info',
   '7. More Information on Nop-Commerce',
 ];
-  var index = help.Count;
+
+
 
 function valid_chatbot_helpresponse(user_response) {
   var chat_bot_response = "";
-
   if (user_response != null) {
     if (user_response == 1) {
-      chat_bot_response = `To report damage products, go to the contact page and email us. You will need to provide your name, email and your report information.`;
+      chat_bot_response = `To report damage products, go to contact page &  email us, where you will have to provide your name, email and your report information.`;
     } else if (user_response == 2) {
       chat_bot_response = `To report any missing products, go to the contact page and email us. You will need to provide your name, email and your report information.`;
     } else if (user_response == 3) {
-      chat_bot_response = `Print out different categories of things on website-- another menu...`;
+      chat_bot_response = `There various categories of items you can select from on our page.   \n`;
+      chat_bot_response += 'The main categories you can see on the page are Computer, Electronics, Apparel, Digital Download, Books, Jewerly, Gift Cards.For detailed list of categories just hoever over each categories throughout the website.';
     } else if (user_response == 4) {
-      chat_bot_response = `What kinds of product are you looking for?`;
+      chat_bot_response = `What kinds of product are you looking for? Why don't you tell me more about it, and I am happy to help you!`;
+    } else if (user_response == 5) {
+      chat_bot_response = `To search Products write: FIND before your search input in this chat.`;
+    } else if (user_response == 6) {
+      chat_bot_response = `Customer Service can be reached by directing yourself to the footer of any page. Click on Contact US.There you will reach us electronically. We will ask you to provide us with your name,
+       email and your report information. Sorry, for any inconvenience. `;
+    } else if(user_response == 7) {
+      chat_bot_response = `NopCommerce is our open-source E-commerce platoform that is based upon ASP\.net MVC & MS SQL Server backend database. Development of our nopCommerce website started around 2008
+      by Andrei Mazulnitsyn, from Yaroslavi, Russia.Based on a report from December 2016, about 30,950 websites have utilized our website to expand their companies.`;
     } else {
-      chat_bot_response = `Sorry, I didn't understand what you said. Can you repeat yourself?`;
+      chat_bot_response = `I didn't understand what you said. Can you repeat yourself?`;
     }
   } else {
-    chat_bot_response = `Sorry, I didn't understand what you said. Can you repeat yourself?`;
+    chat_bot_response = `I apologize, but I didn't understand what you said. Can you repeat yourself?`;
   }
   return chat_bot_response;
 }
 
 function send_message_to_chat(client_message, class_name, id_name, photo_id) {
   client_message = $.trim(client_message);
+  console.log(client_message);
+  var valid = false;
   if (client_message != null) {
+    responseNode = null;
     if (class_name == 'chat friend' || class_name == 'chat self') {
+      valid = true;
       var innerDiv = document.createElement('div');
       innerDiv.className = class_name;
       innerDiv.id = id_name;
@@ -57,33 +92,82 @@ function send_message_to_chat(client_message, class_name, id_name, photo_id) {
       var node = document.createElement("p");
       node.className = "chat-message";
       if (class_name == 'chat self') {
+        var i = 0;
         var responseNode = document.createTextNode(client_message);
       } else {
-        if (client_message == 'help' || client_message == 'HELP' || client_message == 'Help') {
+        if (client_message.includes('help') || client_message.includes('HELP') || client_message.includes('Help')) {
+          help_menu_assistance(node, innerDiv);
+        } else if (isFinite(String(client_message))) {
+          console.log(client_message);
 
-          var i = 0;
-            for(i= 0; i < 8;i++) {
-              var responseNode = document.createTextNode(help[i] + " ");
-              console.log(help[i]);
-              if(i != 7) {
-              var node = document.createElement("p");
-              node.className = "chat-message";
-              node.appendChild(responseNode);
-              innerDiv.appendChild(node);
-              document.getElementById("chatlogs").appendChild(innerDiv);
-              }
-            }
+          if (client_message == 1) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if (client_message == 1) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if (client_message == 2) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if (client_message == 3) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if (client_message == 4) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if (client_message == 5) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if(client_message == 6) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else if(client_message == 7) {
+            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
+          } else {
+            var responseNode = document.createTextNode("Sorry that is not one of the help menu selection.");
+          }
+
+          node.appendChild(responseNode);
+          innerDiv.appendChild(node);
+          document.getElementById("chatlogs").appendChild(innerDiv);
         } else {
-          var responseNode = document.createTextNode(questions[0]);
+          var responseNode = document.createTextNode("Sorry can I help you with something, I did not understand...?");
+          node.appendChild(responseNode);
+          innerDiv.appendChild(node);
+          document.getElementById("chatlogs").appendChild(innerDiv);
         }
       }
-      node.appendChild(responseNode);
-      innerDiv.appendChild(node);
-      document.getElementById("chatlogs").appendChild(innerDiv);
     }
+
+    if (responseNode != null) {
+      node.appendChild(responseNode);
+    }
+    innerDiv.appendChild(node);
+    document.getElementById("chatlogs").appendChild(innerDiv);
   }
 }
 
+function help_menu_assistance(node, innerDiv) {
+  var i = 0;
+  for (i = 0; i < 11; i++) {
+
+    var responseNode = document.createTextNode(help[i] + " ");
+    if (i != 10) {
+      if (i >= 2 && i <= 9) {
+        node.appendChild(responseNode);
+        node.appendChild(document.createElement("br"));
+      } else {
+        var node = document.createElement("p");
+        node.className = "chat-message";
+        node.appendChild(responseNode);
+        innerDiv.appendChild(node);
+        document.getElementById("chatlogs").appendChild(innerDiv);
+      }
+    }
+  }
+  scroll_chat();
+}
+
+function scroll_chat() {
+  $(document).ready(function() {
+    $('#chatlogs').animate({
+      scrollTop: $('#chatlogs').get(0).scrollHeight
+    }, 2000);
+  });
+}
 
 function send_message() {
   client_message = document.getElementById('ans').value;
@@ -98,12 +182,7 @@ function send_message() {
     send_message_to_chat(client_message, 'chat self', 'ans-show', 'user-photo');
     chat_bot_response();
 
-    $(document).ready(function() {
-      $('#chatlogs').animate({
-        scrollTop: $('#chatlogs').get(0).scrollHeight
-      }, 2000);
-
-    });
+    scroll_chat();
   }
 }
 
