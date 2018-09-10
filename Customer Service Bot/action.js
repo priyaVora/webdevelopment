@@ -25,6 +25,37 @@ var product_language = [
   'accesories',
   'jewerly',
   'gift-cards'
+  'table',
+  'camera',
+  'running shoes',
+  'Running shoes',
+  'Notebooks',
+  'Software',
+  'adobe photoshop cs4',
+  'Windows',
+  'Apple',
+  'MacBook',
+  'Sleekbook',
+  'HP Spectre XT Pro UltraBook',
+  '$25',
+  '$100',
+  'virtual',
+  'elegant',
+  'Gemstone',
+  'Necklace',
+  'Flower',
+  'Girl',
+  'Braclet',
+  'Vintage',
+  'Engagement',
+  'Bracelet',
+  'Science',
+  'Pride and Prejudice',
+  'First',
+  'Nike',
+  'apple',
+  'HP',
+  'hp'
 ];
 
 var help = [
@@ -59,7 +90,7 @@ function valid_chatbot_helpresponse(user_response) {
     } else if (user_response == 6) {
       chat_bot_response = `Customer Service can be reached by directing yourself to the footer of any page. Click on Contact US.There you will reach us electronically. We will ask you to provide us with your name,
        email and your report information. Sorry, for any inconvenience. `;
-    } else if(user_response == 7) {
+    } else if (user_response == 7) {
       chat_bot_response = `NopCommerce is our open-source E-commerce platoform that is based upon ASP\.net MVC & MS SQL Server backend database. Development of our nopCommerce website started around 2008
       by Andrei Mazulnitsyn, from Yaroslavi, Russia.Based on a report from December 2016, about 30,950 websites have utilized our website to expand their companies.`;
     } else {
@@ -100,44 +131,52 @@ function send_message_to_chat(client_message, class_name, id_name, photo_id) {
         } else if (isFinite(String(client_message))) {
           console.log(client_message);
 
-          if (client_message == 1) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if (client_message == 1) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if (client_message == 2) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if (client_message == 3) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if (client_message == 4) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if (client_message == 5) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if(client_message == 6) {
-            var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
-          } else if(client_message == 7) {
+          if (client_message > 0 && client_message < 8) {
             var responseNode = document.createTextNode(valid_chatbot_helpresponse(client_message));
           } else {
             var responseNode = document.createTextNode("Sorry that is not one of the help menu selection.");
           }
 
-          node.appendChild(responseNode);
-          innerDiv.appendChild(node);
-          document.getElementById("chatlogs").appendChild(innerDiv);
-        } else {
-          var responseNode = document.createTextNode("Sorry can I help you with something, I did not understand...?");
-          node.appendChild(responseNode);
-          innerDiv.appendChild(node);
-          document.getElementById("chatlogs").appendChild(innerDiv);
-        }
+
+        node.appendChild(responseNode);
+        innerDiv.appendChild(node);
+        document.getElementById("chatlogs").appendChild(innerDiv);
+      } else if(client_message.includes("find") || client_message.includes("FIND")) {
+            var responseNode = document.createTextNode("I don't understand what you are trying to find, can you try telling me again...?!");
+            var i = 0;
+            loop: for(i = 0; i < product_language.length; i++) {
+                if(client_message.includes(product_language[i])) {
+                  var responseNode = document.createTextNode('Sure I can direct you to the ' + product_language[i] + ' page. Give me one moment...');
+                  break loop;
+                }
+            }
+      } else if(client_message.includes("looking") || client_message.includes(Looking) || client_message.includes("finding") || client_message.includes("Finding")) {
+            var responseNode = product_suggestion(client_message, responseNode, innerDiv);
+      } else {
+        var responseNode = document.createTextNode("Sorry can I help you with something, I did not understand...?");
+        node.appendChild(responseNode);
+        innerDiv.appendChild(node);
+        document.getElementById("chatlogs").appendChild(innerDiv);
       }
     }
-
-    if (responseNode != null) {
-      node.appendChild(responseNode);
-    }
-    innerDiv.appendChild(node);
-    document.getElementById("chatlogs").appendChild(innerDiv);
   }
+
+function product_suggestion(client_message, responseNode, innerDiv) {
+  client_message = client_message.replace("I am looking for", "");
+  client_message = client_message.replace("I am trying to find","");
+  var product-sugguest-mode = [
+      'Okay, I see you are trying to find, ' + client_message
+  ];
+
+  responseNode = product_suggestion[0];
+}
+
+  if (responseNode != null) {
+    node.appendChild(responseNode);
+  }
+  innerDiv.appendChild(node);
+  document.getElementById("chatlogs").appendChild(innerDiv);
+}
 }
 
 function help_menu_assistance(node, innerDiv) {
