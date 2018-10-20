@@ -121,11 +121,6 @@ class DropArea extends React.Component {
 
 export default DropArea;
 
-
-
-
-
-
 Resizer.propTypes = {
   id:                   PropTypes.number.isRequired,
   isResizing:           PropTypes.bool.isRequired,

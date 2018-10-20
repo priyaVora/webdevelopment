@@ -10,7 +10,7 @@ class Draggable extends React.Component {
   }
   onMouseDown(e){
     console.log("Draggable.onMouseDown");
-    // TODO:もっとちゃんと比較する
+
     var elm = document.elementFromPoint(e.clientX, e.clientY);
     if( elm.className !== 'resizer' ){
       this.props.updateStateDragging( this.props.id, true );
@@ -20,7 +20,7 @@ class Draggable extends React.Component {
     console.log("Draggable.onMouseUp");
     this.props.updateStateDragging( this.props.id, false );
   }
-  // Drag開始イベント
+  // Drag
   onDragStart(e) {
     console.log("Draggable.onDragStart");
 
@@ -49,7 +49,7 @@ class Draggable extends React.Component {
       <div
         ref={"node"}
         draggable={this.props.isDragging}
-        id={ 'item_' + this.props.id }
+        id={ 'Item_' + this.props.id }
         className="item unselectable"
         style={styles}
 
@@ -57,11 +57,10 @@ class Draggable extends React.Component {
         onMouseUp={this.onMouseUp.bind(this)}
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd.bind(this)}>
-          { 'item_' + this.props.id }
+          { 'Item_' + this.props.id }
         <Resizer
           ref={"resizerNode"}
           id={this.props.id}
-
           isResizing={this.props.isResizing}
           resizerWidth={16}
           resizerHeight={16}
