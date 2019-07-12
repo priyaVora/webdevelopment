@@ -29,80 +29,56 @@ class Maze {
         this._selectStart();
         this._selectEnd();
         this.pattern = this._selectAdjacentCellPattern();
-        this.gen(this.isStart);
+        this.gen(this.isStart, "Z");
         this.draw(this.size);
     }
 
-    gen(cell) { 
+    gen(cell, direction) { 
         console.log("Maze Generation...");
         cell.visited = true;
-        console.log(cell);
-        let count =0;
-        let queue = new Array();
-        let non_visited_neighbors = new Array();
-        queue.push(cell);
-         
-        console.log("Queue: ");
-        console.log(queue);
+        console.log("Pattern: ", direction);
+        
+        if(direction === "R") { 
+            cell.rightWall = false;
+        } else if(direction === "B") { 
+            cell.bottomWall = false;
+        } else if(direction === "L") { 
+            cell.leftWall = false;
+        } else if(direction === "T") { 
+            cell.topWall = false;
+        }
 
-        while(count < 4) {
-           if(this.pattern[count] === "L") { 
-               if(cell.left !== undefined) { 
-                if(cell.left.visited !== true) { 
-                    console.log("Left Neighbor is not visited");
-                    console.log(cell.left[0]);
-                    non_visited_neighbors.push({cell: cell.left[0], direction: "L"});
-                }
-               }
-           } else if(this.pattern[count] === "R") {
-               if(cell.right !== undefined) { 
-                if(cell.right.visited !== true) { 
-                    console.log("Right Neighbor is not visited");
-                    non_visited_neighbors.push({
-                        cell: cell.right[0], 
-                        direction: "R"
-                    });   
-                }
-               }
-           } else if(this.pattern[count] === "B") { 
-               if(cell.bottom !== undefined) { 
-                if(cell.bottom.visited !== true) { 
-                    console.log("Bottom Neighbor is not visited");
-                    console.log(cell.bottom[0]);
-                    non_visited_neighbors.push({
-                        cell: cell.bottom[0], 
-                        direction: "B"
-                    });
+        this.pattern = this._selectAdjacentCellPattern();
+
+
+        let i =0;
+        do {
+            if(this.pattern[i] === "L") { 
+                if(cell.left && (!cell.left.visited)) { 
+                    this.gen(cell.left, "L");
+                    cell.leftWall = false;
                 }
             }
-           } else if(this.pattern[count] === "T") {  
-               if(cell.top !== undefined) { 
-                if(cell.top.visited !== true) { 
-                    console.log("Top Neighbor is not visited");
-                    non_visited_neighbors.push({
-                        cell: cell.top[0], 
-                        direction: "T"
-                    });
+            if(this.pattern[i] === "T") { 
+                if(cell.top && (!cell.top.visited)) { 
+                    this.gen(cell.top, "T");
+                    cell.topWall = false;
+                } 
+            }
+            if(this.pattern[i] === "R") { 
+                if(cell.right && (!cell.right.visited)) { 
+                    this.gen(cell.right, "R");
+                    cell.rightWall = false;
                 }
-               }   
-           }
-         count++;   
-        }
-        
-        
-        
-        let A = non_visited_neighbors[Math.floor((Math.random()*non_visited_neighbors.length))];
-        if(non_visited_neighbors === []) { 
-            console.log("Stop...Check if queue is empty or not do the continue part.");
-            return;
-        }
-        cell = this.breakWall(A, cell);
-        if(this.checkCount !== (this.size*this.size)) { 
-            this.checkCount++;
-            this.gen(A.cell);
-        } else { 
-            return;
-        }
+            }
+            if(this.pattern[i] === "B") { 
+                if(cell.bottom && (!cell.bottom.visited)) { 
+                    this.gen(cell.bottom, "B");
+                    cell.bottomWall = false;
+                }
+            }
+            i++;
+        } while(i < 4);
         
     }
 
@@ -173,28 +149,19 @@ class Maze {
         let neighbors = ["L" , "B", "T", "R"];
         return this._shuffle(neighbors);
     }
-
-    _selectAdjacentCell() { 
-
-    }
-
     _selectStart() {
-        // let startCell = Math.floor(Math.random() * (this.size*this.size));
-         let selectedNode = this.allCells[Object.keys(this.allCells)[1]]; 
+        let startCell = Math.floor(Math.random() * (this.size*this.size));
+         let selectedNode = this.allCells[Object.keys(this.allCells)[startCell]]; 
          this.isStart = selectedNode;
-        //  console.log("Start Node: ");
-        //  console.log(selectedNode); 
     }
 
     _selectEnd() { 
-        // let endCell = Math.floor(Math.random() * (this.size*this.size));
-        let endNode = this.allCells[Object.keys(this.allCells)[2]]; 
+        let endCell = Math.floor(Math.random() * (this.size*this.size));
+        let endNode = this.allCells[Object.keys(this.allCells)[endCell]]; 
         if(endNode.x === this.isStart.x && endNode.y === this.isStart.y) { 
             this._selectEnd();
         } else { 
             this.isEnd = endNode;
-            // console.log("End Node: ");
-            // console.log(endNode);
         }
     }
 
@@ -248,10 +215,8 @@ class Maze {
                 let currentCell = this.grid[r][c][0];
                 cell.style.leftWall = "#383838";
                 this.buildWalls(currentCell, cell);
-                
             }
         }
-
         return grid;
      }
 
@@ -291,4 +256,4 @@ class Maze {
 }
 
 
-let myMaze = new Maze(10);
+let myMaze = new Maze(4);
