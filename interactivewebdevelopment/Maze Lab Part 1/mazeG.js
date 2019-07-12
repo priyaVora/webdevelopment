@@ -292,8 +292,72 @@ class Maze {
   }
   }
 
-  playerMode() { 
-    console.log("Playermode");
+  moveCellDraw(maze, blockSize, cell) {
+    this.cellSize = blockSize;
+    this.grid = maze.grid;
+    this.size = maze.size;
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    let WIDTH = this.size * this.cellSize;
+    let HEIGHT = this.size * this.cellSize;
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    ctx.fillStyle = "grey";
+    ctx.fillRect(0, 0, this.cellSize*this.size, this.cellSize*this.size);
+
+    for(let j = 0; j < this.size; j++){
+      for(let i = 0; i < this.size; i++){
+        if(this.grid[i][j].isStart){
+          ctx.beginPath();
+          
+          for(let path = 0; path < this.pathcopy.length; path++) {
+            let current = this.pathcopy[path];
+            if(cell == current) { 
+              ctx.fillStyle = "blue";
+              ctx.fillRect((current.x*this.cellSize)+4,(current.y*this.cellSize)+4,this.cellSize-4,this.cellSize-4);
+              console.log(path, this.pathcopy[path]);
+            }
+          }
+          ctx.fillStyle = "green";
+          ctx.fillRect((j*this.cellSize),(i*this.cellSize),this.cellSize,this.cellSize);
+          ctx.closePath();
+        }
+        if(this.grid[i][j].isEnd){
+          ctx.beginPath();
+          ctx.fillStyle = "red";
+          ctx.fillRect((j*this.cellSize),(i*this.cellSize),this.cellSize,this.cellSize);
+          ctx.closePath();
+        }
+        if(this.grid[i][j].leftWall){
+          ctx.beginPath();
+          ctx.moveTo((j*this.cellSize),(i*this.cellSize));
+          ctx.lineTo((j*this.cellSize),(i*this.cellSize)+this.cellSize);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        if(this.grid[i][j].topWall){
+          ctx.beginPath();
+          ctx.moveTo((j*this.cellSize),(i*this.cellSize));
+          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize));
+          ctx.closePath();
+          ctx.stroke();
+        }
+        if(this.grid[i][j].rightWall){
+          ctx.beginPath();
+          ctx.moveTo((j*this.cellSize)+this.cellSize,(i*this.cellSize));
+          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize)+this.cellSize);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        if(this.grid[i][j].bottomWall){
+          ctx.beginPath();
+          ctx.moveTo((j*this.cellSize),(i*this.cellSize)+this.cellSize);
+          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize)+this.cellSize);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+  }
   }
 }
 
@@ -311,28 +375,11 @@ function solve() {
 
 function start(direction, currentCell) { 
   console.log("Start...");
-  timer();
-  theMaze.playerMode();
-  
-  
-  if(direction === "up") { 
-    let x = currentCell.x;
-    let y = currentCell.y-1;
-    currentCell = theMaze.grid[y][x];
-  } else if(direction === "down") { 
-    let x = currentCell.x;
-    let y = currentCell.y+1;
-    currentCell = theMaze.grid[y][x];
-  } else if(direction === "right") { 
-    let x = currentCell.x+1;
-    let y = currentCell.y;
-    currentCell = theMaze.grid[y][x];
-  } else if(direction === "left") { 
-    let x = currentCell.x-1;
-    let y = currentCell.y;
-    currentCell = theMaze.grid[y][x];
-  }
   console.log("Direction", currentCell);
+  theMaze.moveCellDraw(theMaze, 20, currentCell);
+  if(currentCell === theMaze.endCell) { 
+    alert("Awesome, you solved the maze!");
+  }
   return currentCell;
 }
 
@@ -357,25 +404,30 @@ function timer() {
     }
   }  
 }
+let currentCell;
+if(currentCell == undefined) { 
+  currentCell = theMaze.startCell;
+}
 
 document.onkeydown = function myFunction() {
-  let currentCell = theMaze.startCell;
+
+  console.log("Current Start", currentCell);
   switch (event.keyCode) {
   case 38:
       console.log("Up key is pressed");
-      currentCell = start("up",currentCell);
+      currentCell = start("up",currentCell.top);
       break;
   case 40:
       console.log("Down key is pressed");
-      currentCell = start("down", currentCell);
+      currentCell = start("down", currentCell.bottom);
       break;
   case 37:
-      console.log("Right key is pressed");
-      currentCell = start("right", currentCell);
+      console.log("left key is pressed");
+      currentCell = start("left",currentCell.left);
       break;
   case 39:
-      console.log("left key is pressed");
-      currentCell = start("left",currentCell);
+    console.log("Right key is pressed");
+    currentCell = start("right", currentCell.right);
       break;
   }
 }
