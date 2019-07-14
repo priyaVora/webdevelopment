@@ -6,14 +6,10 @@ class Cell{
     this.isEnd = false;
   
     this.visited = false;
-  
-    //My Neighbors --> references to cells
     this.left = null;
     this.top = null;
     this.right = null;
     this.bottom = null;
-  
-    //Walls ?
     this.leftWall = true;
     this.topWall = true;
     this.rightWall = true;
@@ -37,18 +33,6 @@ class Maze {
 
   generateRandomMaze(cell, direction) { 
       cell.visited = true;
-
-      // if(this.addToPath === true) { 
-      //   if(cell === this.startCell) { 
-      //     this.pathway.push(cell);
-      //   } else if(cell === this.endCell) { 
-      //     this.pathway.push(cell);
-      //     this.addToPath = false;
-      //   } else  { 
-      //      this.pathway.push(cell);
-      //   }
-      // }
-
       this.pathway.push(cell);
 
       if(direction == "L"){
@@ -124,7 +108,7 @@ class Maze {
   setAllNeighbors() {
     for(let y = 0;y < this.size;y++){
       for(let x = 0;x < this.size;x++){
-        var cell = this.grid[y][x];
+        let cell = this.grid[y][x];
         //left
         if(x > 0){
           cell.left = this.grid[y][x-1];
@@ -150,7 +134,7 @@ class Maze {
     for(let y = 0; y < this.size; y++){
       this.grid[y] = [];
       for(let x = 0; x < this.size; x++){
-        var newCell = new Cell(y,x);
+        let newCell = new Cell(y,x);
         this.grid[y][x] = newCell;
         this.allCells.push(newCell);
       }
@@ -171,13 +155,11 @@ class Maze {
     this.cellSize = blockSize;
     this.grid = maze.grid;
     this.size = maze.size;
-    let canvas = document.getElementById("myCanvas");
+    let canvas = document.getElementById("grid");
     let ctx = canvas.getContext("2d");
-    let WIDTH = this.size * this.cellSize;
-    let HEIGHT = this.size * this.cellSize;
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
-    ctx.fillStyle = "grey";
+    canvas.width = this.size * this.cellSize;
+    canvas.height =  this.size * this.cellSize;
+    ctx.fillStyle = "#555";
     ctx.fillRect(0, 0, this.cellSize*this.size, this.cellSize*this.size);
 
     for(let i = 0; i < this.size; i++){
@@ -194,6 +176,14 @@ class Maze {
           ctx.fillRect((j*this.cellSize),(i*this.cellSize),this.cellSize,this.cellSize);
           ctx.closePath();
         }
+        
+        if(this.grid[i][j].topWall){
+          ctx.beginPath();
+          ctx.moveTo((j*this.cellSize),(i*this.cellSize));
+          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize));
+          ctx.closePath();
+          ctx.stroke();
+        }
         if(this.grid[i][j].leftWall){
           ctx.beginPath();
           ctx.moveTo((j*this.cellSize),(i*this.cellSize));
@@ -201,10 +191,11 @@ class Maze {
           ctx.closePath();
           ctx.stroke();
         }
-        if(this.grid[i][j].topWall){
+      
+        if(this.grid[i][j].bottomWall){
           ctx.beginPath();
-          ctx.moveTo((j*this.cellSize),(i*this.cellSize));
-          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize));
+          ctx.moveTo((j*this.cellSize),(i*this.cellSize)+this.cellSize);
+          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize)+this.cellSize);
           ctx.closePath();
           ctx.stroke();
         }
@@ -215,28 +206,24 @@ class Maze {
           ctx.closePath();
           ctx.stroke();
         }
-        if(this.grid[i][j].bottomWall){
-          ctx.beginPath();
-          ctx.moveTo((j*this.cellSize),(i*this.cellSize)+this.cellSize);
-          ctx.lineTo((j*this.cellSize)+this.cellSize,(i*this.cellSize)+this.cellSize);
-          ctx.closePath();
-          ctx.stroke();
-        }
       }
   }
+  }
+
+  fill(ctx, color) { 
+    ctx.fillStyle = color;
   } 
 
   botDraw(maze, blockSize) {
     this.cellSize = blockSize;
     this.grid = maze.grid;
     this.size = maze.size;
-    let canvas = document.getElementById("myCanvas");
+    let canvas = document.getElementById("grid");
     let ctx = canvas.getContext("2d");
-    let WIDTH = this.size * this.cellSize;
-    let HEIGHT = this.size * this.cellSize;
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
-    ctx.fillStyle = "grey";
+   
+    canvas.width = this.size * this.cellSize;
+    canvas.height = this.size * this.cellSize;
+    ctx.fillStyle = "#fab";
     ctx.fillRect(0, 0, this.cellSize*this.size, this.cellSize*this.size);
 
     for(let j = 0; j < this.size; j++){
@@ -248,7 +235,6 @@ class Maze {
             let current = this.pathcopy[path];
             ctx.fillStyle = "blue";
             ctx.fillRect((current.x*this.cellSize)+4,(current.y*this.cellSize)+4,this.cellSize-4,this.cellSize-4);
-            console.log(path, this.pathcopy[path]);
           }
           ctx.fillStyle = "green";
           ctx.fillRect((j*this.cellSize),(i*this.cellSize),this.cellSize,this.cellSize);
@@ -296,13 +282,12 @@ class Maze {
     this.cellSize = blockSize;
     this.grid = maze.grid;
     this.size = maze.size;
-    let canvas = document.getElementById("myCanvas");
+    let canvas = document.getElementById("grid");
     let ctx = canvas.getContext("2d");
-    let WIDTH = this.size * this.cellSize;
-    let HEIGHT = this.size * this.cellSize;
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
-    ctx.fillStyle = "grey";
+    
+    canvas.width = this.size * this.cellSize;
+    canvas.height = this.size * this.cellSize;
+    ctx.fillStyle = "#555";
     ctx.fillRect(0, 0, this.cellSize*this.size, this.cellSize*this.size);
 
     for(let j = 0; j < this.size; j++){
@@ -361,19 +346,20 @@ class Maze {
   }
 }
 
-let theMaze = new Maze(4);
-let modes = ["player", "bot"];
-console.log(modes);
+let theMaze = new Maze(100);
+let currentCell;
+if(currentCell == undefined) { 
+  currentCell = theMaze.startCell;
+}
 
 function solve() { 
-  console.log("Solve...");
-  console.log("Start", theMaze.startCell);
-  console.log("End", theMaze.endCell);
-
   theMaze.botDraw(theMaze,20);
 }
 
 function start(direction, currentCell) { 
+  if(currentCell.x >= theMaze.size) {
+   
+  }
   console.log("Start...");
   console.log("Direction", currentCell);
   theMaze.moveCellDraw(theMaze, 20, currentCell);
@@ -384,29 +370,25 @@ function start(direction, currentCell) {
 }
 
 function timer() { 
-  var minutesLabel = document.getElementById("minutes");
-  var secondsLabel = document.getElementById("seconds");
-  var totalSeconds = 0;
+  let minutesLabel = document.getElementById("m");
+  let secondsLabel = document.getElementById("s");
+  let totalSecs = 0;
   setInterval(setTime, 1000);
   
   function setTime() {
-    ++totalSeconds;
-    secondsLabel.innerHTML = pad(totalSeconds % 60);
-    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    ++totalSecs;
+    secondsLabel.innerHTML = time_second(totalSecs % 60);
+    minutesLabel.innerHTML = time_second(parseInt(totalSecs / 60));
   }
   
-  function pad(val) {
-    var valString = val + "";
+  function time_second(val) {
+    let valString = val + "";
     if (valString.length < 2) {
       return "0" + valString;
     } else {
       return valString;
     }
   }  
-}
-let currentCell;
-if(currentCell == undefined) { 
-  currentCell = theMaze.startCell;
 }
 
 document.onkeydown = function myFunction() {
@@ -415,19 +397,53 @@ document.onkeydown = function myFunction() {
   switch (event.keyCode) {
   case 38:
       console.log("Up key is pressed");
-      currentCell = start("up",currentCell.top);
+     
+
+      if(currentCell.top !== undefined) {
+        console.log(currentCell.top);
+        console.log(currentCell.topWall);
+        if(currentCell.topWall !== true) { 
+          currentCell = start("up",currentCell.top);
+        } else { 
+         
+        }
+      }
       break;
   case 40:
       console.log("Down key is pressed");
-      currentCell = start("down", currentCell.bottom);
+      if(currentCell.bottom !== undefined) {
+        console.log(currentCell.bottom);
+        console.log(currentCell.bottomWall);
+        if(currentCell.bottomWall !== true) { 
+          currentCell = start("down", currentCell.bottom);
+        } else { 
+          
+        }
+      }
       break;
   case 37:
       console.log("left key is pressed");
-      currentCell = start("left",currentCell.left);
+      if(currentCell.left !== undefined) {
+        console.log(currentCell.left);
+        console.log(currentCell.leftWall);
+        if(currentCell.leftWall !== true) { 
+          currentCell = start("left",currentCell.left);
+        } else { 
+          
+        }
+      }
       break;
   case 39:
     console.log("Right key is pressed");
-    currentCell = start("right", currentCell.right);
+    if(currentCell.right !== undefined) {
+      console.log(currentCell.right);
+      console.log(currentCell.rightWall);
+      if(currentCell.rightWall !== true) { 
+        currentCell = start("right", currentCell.right);
+      } else { 
+        alert("You hit the wall!");
+      }
+    }
       break;
   }
 }

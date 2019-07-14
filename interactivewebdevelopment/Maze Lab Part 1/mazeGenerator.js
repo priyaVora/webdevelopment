@@ -49,8 +49,6 @@ class Maze {
         }
 
         this.pattern = this._selectAdjacentCellPattern();
-
-
         let i =0;
         do {
             if(this.pattern[i] === "L") { 
