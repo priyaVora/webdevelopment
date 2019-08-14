@@ -1,0 +1,12 @@
+{
+    "accesories": [
+        {
+            "id":1, 
+            "name":"Sunglasses",
+            "description": "Eye protection fromm UV light.",
+            "from": "USA",
+            "price": 450, 
+            "url":"https://images.sunglasshut.com/resource/blob/15656/ea2841aff9c8a1dd2c8c8c76338c29d6/x-sgh-ddm-113-rb3716-2-2x-2-data.jpg" 
+        }
+    ]
+}

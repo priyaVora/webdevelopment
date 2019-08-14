@@ -1,0 +1,87 @@
+h1{
+    color:purple;
+}
+.bookListContainer{
+    margin:10px;
+}
+.bookContainer{
+    margin:10px;
+    margin-bottom:1%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 10%;
+    display: inline-block;
+}
+
+.bookContainer:hover { 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.bookId{
+    padding-right:10px;
+    font-weight: bold;
+}
+
+.tag { 
+    padding-right:10px;
+}
+.bookDetail { 
+    font-size: 1vw;
+    padding-right:10px;
+    display: block;
+}
+
+.imageTag { 
+    display: block;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    height:200px;
+    justify-content: center;
+}
+
+#addtocart {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    padding: 1%;
+  }
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    top: 0;
+    width: 100%;
+  } 
+   
+  .navitem {
+    float: left;
+  }
+  
+  .navitem a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+   
+  .navitem a:hover:not(.active) {
+    background-color: #111;
+  }
+  
+  .active {
+    background-color: #4CAF50;
+  }
+  body {margin:0;}
+
+  .homebody { 
+      margin-top: 50%;
+  }
+  

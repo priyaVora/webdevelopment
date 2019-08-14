@@ -1,0 +1,19 @@
+html
+    head
+        title=title
+        link(href="/styles/styles.css",type="text/css",rel="stylesheet")
+    body
+        div()
+            ul()
+                div(class="navitem")
+                    a(href="/" class="tag active")="Home"
+                div(class="navitem")    
+                    a(href="/books" class="tag")="Books"
+                div(class="navitem")
+                    a(href="/food" class="tag")="Food"
+                div(class="navitem")
+                    a(href="/accessories" class="tag")="Accesories"
+                div(class="navitem")    
+                    a(href="/orders" class="tag")="My Orders"
+        div(class="bodyContainer")
+            block content

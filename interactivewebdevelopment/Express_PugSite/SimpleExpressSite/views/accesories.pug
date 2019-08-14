@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content
+    div(class="bookListContainer")
+        each book in rawr
+            div(class="bookContainer")
+                img(src=book.url class="imageTag" alt="Avatar")
+                span(class="bookId")="Id: " + book.id
+                span(class="bookDetail")="Title: " + book.title
+                span(class="bookDetail")="Author: " + book.author
+                span(class="bookDetail")="Genre: " + book.genre
+                span(class="bookDetail")="Date: " + book.date
+                span(class="bookDetail")="Price: " + book.price
+                button(type="button")="Add To Cart"

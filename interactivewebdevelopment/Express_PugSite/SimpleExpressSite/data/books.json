@@ -1,0 +1,60 @@
+{
+    "books": [
+        {
+        "id":1, 
+        "title":"Medea",
+        "author": "Euripides", 
+        "description": "Medea is an ancient Greek tragedy written by Euripides, based upon the myth of Jason and Medea and first produced in 431 BC.",
+        "genre": "play",
+        "date": "431 BC",
+        "price": 250, 
+        "url": "https://images-na.ssl-images-amazon.com/images/I/5196M0SIdVL._SX313_BO1,204,203,200_.jpg"
+        },
+        {"id":2, 
+        "title":"The Odyssey",
+        "author": "Homer", 
+        "description": "The Odyssey is one of two major ancient Greek epic poems attributed to Homer.",
+        "genre": "epic poem",
+        "date": "no date",
+        "price": 250,
+        "url": "https://global.oup.com/academic/covers/pdp/9780199360314"
+        },
+        {"id":3,
+        "title":"Antigone",
+        "author": "Sophocles", 
+        "description": "Antigone is a tradegy by Sophoclees written in or before 441 BC.Of the three Theban plays Antigone is the third in order of the events depicted in the plays, but it is the first that was written. ",
+        "date": "429 BC",
+        "price": 250,
+        "url": "https://cityofwinterpark.org/wp-content/uploads/2019/03/Event-Antigone.jpg"
+        },
+        {"id":4,
+        "title":"Oedipus Rex",
+        "author": "Sophocles", 
+        "description": "Oedipus Rex, is an Athenian tradegy by Sophocles that was first performed around 419 BC. Originally, to the ancient Greeks, the title was simply Oedipus, as it referred to by Aristotle in the Poetics.",
+        "genre": "play",
+        "date": "429 BC",
+        "price": 250,
+        "url": "https://images-na.ssl-images-amazon.com/images/I/51VZArBypPL.jpg"
+        }, 
+        { 
+        "id":5,
+        "title":"Don Quixote",
+        "author": "Miguel de C.", 
+        "description": "Don Quixote is the most influential work of literature from the Spanish Golden Age and the entire Spanish literary canon.",
+        "genre": "novel",
+        "date": "1605",
+        "price": 250,
+        "url":"http://prodimage.images-bn.com/pimages/9781544284682_p0_v1_s1200x630.jpg"
+        },
+        { 
+        "id":6,
+        "title":"Tom Jones",
+        "author": "Henry F.", 
+        "description": "This is a comic novel by English playwright and novelist Henry Fielding.",
+        "genre": "novel",
+        "date": "1749",
+        "price": 250,
+        "url":"https://images-na.ssl-images-amazon.com/images/I/51w5cFKPpZL._SX324_BO1,204,203,200_.jpg"
+        }
+    ]
+}
